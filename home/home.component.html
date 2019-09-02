@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-sm bg-warning navbar-dark">
+  <!-- Brand/logo -->
+  <a class="navbar-brand" routerLink='/home'>HOME</a>
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" routerLink='/addemp'>ADD Emp</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink='' (click)="logout()">Log Out</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink='/hum1'>HR 1</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink='/hum2'>HR 2</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLink='/fin1'>Finance</a>
+      </li>
+  </ul>
+</nav>
+
+<h3 style="text-align: center">Welcome {{user}}!!!!</h3>
+<!--Session Storage interpolation from Login Componenet-->
+
+<div class="container-fluid">
+  <div class="row">
+
+    <div class="col-md-9"></div>
+    <div class="col-md-3 ">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search Employee..." [(ngModel)]="term">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt-3">
+  <table class="table table-hover">
+    <tr class="bg-secondary">
+      <th>Sr.No</th>
+      <th>Employee Name</th>
+      <th>Employee Contact</th>
+      <th>Employee City</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let empList of empData |filter:term| paginate: { itemsPerPage: 5, currentPage: p };let i=index">
+      <td>{{i+1}}</td>
+      <!-- <td>{{empList.id}}</td> -->
+      <td>{{empList.empName | titlecase}}</td>
+      <td>{{empList.empContact}}</td>
+      <td>{{empList.empCity}}</td>
+      <td>
+        <button class="btn btn-danger" (click)="empDelete(empList.id)">Delete</button>&nbsp;
+        <button class="btn btn-success" [routerLink]="['/update',empList.id]">Update</button>
+      </td>
+    </tr>
+  </table>
+  <pagination-controls class="text-center" (pageChange)="p = $event"></pagination-controls>
+
+</div>
